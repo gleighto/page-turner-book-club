@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLibrary } from "@/context/LibraryContext";
 import { Book } from "@/types";
@@ -8,23 +8,42 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
 
 interface BookFormProps {
   bookId?: string;
+  currentBook: Book | null;
 }
 
-const BookForm = ({ bookId }: BookFormProps) => {
-  const { books, addBook, editBook } = useLibrary();
+const BookForm = ({ bookId, currentBook }: BookFormProps) => {
+  const { addBook, editBook } = useLibrary();
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const isEditing = !!bookId && !!currentBook;
   
-  const existingBook = bookId ? books.find((b) => b.id === bookId) : null;
-  const isEditing = !!existingBook;
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [year, setYear] = useState("");
+  const [genre, setGenre] = useState("");
+  const [status, setStatus] = useState<"borrowed" | "returned">("returned");
 
-  const [title, setTitle] = useState(existingBook?.title || "");
-  const [author, setAuthor] = useState(existingBook?.author || "");
-  const [year, setYear] = useState(existingBook?.year.toString() || "");
-  const [genre, setGenre] = useState(existingBook?.genre || "");
-  const [status, setStatus] = useState<"borrowed" | "returned">(existingBook?.status || "returned");
+  // Set form values when currentBook changes (for editing)
+  useEffect(() => {
+    if (currentBook) {
+      setTitle(currentBook.title || "");
+      setAuthor(currentBook.author || "");
+      setYear(currentBook.year?.toString() || "");
+      setGenre(currentBook.genre || "");
+      setStatus(currentBook.status || "returned");
+    } else {
+      // Reset form when adding a new book
+      setTitle("");
+      setAuthor("");
+      setYear("");
+      setGenre("");
+      setStatus("returned");
+    }
+  }, [currentBook]);
 
   // Common genres for suggestions
   const commonGenres = [
@@ -48,6 +67,15 @@ const BookForm = ({ bookId }: BookFormProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!title || !author || !year || !genre) {
+      toast({
+        title: "Missing Fields",
+        description: "Please fill in all required fields",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     const bookData = {
       title,
       author,
@@ -56,13 +84,30 @@ const BookForm = ({ bookId }: BookFormProps) => {
       status,
     };
 
-    if (isEditing && bookId) {
-      editBook(bookId, bookData);
-    } else {
-      addBook(bookData);
+    try {
+      if (isEditing && bookId) {
+        editBook(bookId, bookData);
+        toast({
+          title: "Book Updated",
+          description: `"${title}" has been updated successfully`,
+        });
+      } else {
+        addBook(bookData);
+        toast({
+          title: "Book Added",
+          description: `"${title}" has been added to the library`,
+        });
+      }
+      
+      navigate("/");
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was a problem saving the book",
+        variant: "destructive",
+      });
+      console.error("Error saving book:", error);
     }
-    
-    navigate("/");
   };
 
   // Generate year options from 1900 to current year
@@ -147,7 +192,7 @@ const BookForm = ({ bookId }: BookFormProps) => {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="returned">Returned</SelectItem>
+                  <SelectItem value="returned">Available</SelectItem>
                   <SelectItem value="borrowed">Borrowed</SelectItem>
                 </SelectContent>
               </Select>
