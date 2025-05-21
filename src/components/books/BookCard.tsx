@@ -38,6 +38,9 @@ const BookCard = ({ book, showActions = true }: BookCardProps) => {
     updateBookStatus(book.id, newStatus);
   };
 
+  // Determine the button label based on current status
+  const statusButtonLabel = book.status === "borrowed" ? "Return" : "Borrow";
+
   return (
     <Card className="h-full flex flex-col transition-all duration-200 hover:shadow-md">
       <CardHeader className="pb-2">
@@ -70,7 +73,7 @@ const BookCard = ({ book, showActions = true }: BookCardProps) => {
             className="flex-1"
             onClick={handleStatusToggle}
           >
-            {book.status === "borrowed" ? "Return" : "Borrow"}
+            {statusButtonLabel}
           </Button>
           
           <Button 
