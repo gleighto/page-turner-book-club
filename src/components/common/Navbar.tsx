@@ -30,7 +30,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-2">
           <Book className="h-6 w-6 text-library-primary" />
-          <span className="text-xl font-bold text-library-text">MyLibrary</span>
+          <span className="text-xl font-bold text-library-text">LibraryManager</span>
         </Link>
 
         {currentUser && (

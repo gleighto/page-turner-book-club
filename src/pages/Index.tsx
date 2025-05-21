@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
@@ -29,7 +30,7 @@ const Index = () => {
       
       <div className="container mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold text-library-text">My Library</h1>
+          <h1 className="text-3xl font-bold text-library-text">Library Manager</h1>
           <Link to="/manage">
             <Button className="bg-library-primary hover:bg-library-primary/90">
               <BookIcon className="mr-2 h-4 w-4" />
