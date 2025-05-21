@@ -58,7 +58,7 @@ const BookCard = ({ book, showActions = true, onStatusChange }: BookCardProps) =
           <Badge 
             variant={book.status === "borrowed" ? "destructive" : "outline"}
             className={`
-              ${book.status === "borrowed" ? "bg-library-borrowed" : "bg-library-returned text-library-returned border-library-returned"}
+              ${book.status === "borrowed" ? "bg-library-borrowed" : "bg-library-returned text-white border-library-returned"}
             `}
           >
             {displayStatus}
