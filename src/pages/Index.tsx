@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
@@ -8,7 +7,7 @@ import BookSearch from "@/components/books/BookSearch";
 import BookList from "@/components/books/BookList";
 import { Button } from "@/components/ui/button";
 import { Book } from "@/types";
-import { book as BookIcon } from "lucide-react";
+import { Book as BookIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Index = () => {

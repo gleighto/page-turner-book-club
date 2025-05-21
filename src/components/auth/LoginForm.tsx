@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
@@ -6,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { book } from "lucide-react";
+import { Book } from "lucide-react";
 
 interface LoginFormProps {
   onToggleForm: () => void;
@@ -37,7 +36,7 @@ const LoginForm = ({ onToggleForm }: LoginFormProps) => {
     <Card className="w-full max-w-md mx-auto shadow-lg">
       <CardHeader className="space-y-2 text-center">
         <div className="flex justify-center mb-4">
-          <book className="h-12 w-12 text-library-primary" />
+          <Book className="h-12 w-12 text-library-primary" />
         </div>
         <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
         <CardDescription>
