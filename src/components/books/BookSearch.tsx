@@ -90,7 +90,7 @@ const BookSearch = ({ onSearchResults }: BookSearchProps) => {
               <SelectValue placeholder="Select year" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Any year</SelectItem>
+              <SelectItem value="all">Any year</SelectItem>
               {years.map((y) => (
                 <SelectItem key={y} value={y.toString()}>
                   {y}
@@ -107,7 +107,7 @@ const BookSearch = ({ onSearchResults }: BookSearchProps) => {
               <SelectValue placeholder="Select genre" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Any genre</SelectItem>
+              <SelectItem value="all">Any genre</SelectItem>
               {genres.map((g) => (
                 <SelectItem key={g} value={g}>
                   {g}
