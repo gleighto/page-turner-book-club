@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { book, log-out } from "lucide-react";
+import { Book, LogOut } from "lucide-react";
 
 const Navbar = () => {
   const { currentUser, logout } = useAuth();
@@ -29,7 +29,7 @@ const Navbar = () => {
     <header className="bg-white border-b border-gray-200 sticky top-0 z-10 shadow-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center space-x-2">
-          <book className="h-6 w-6 text-library-primary" />
+          <Book className="h-6 w-6 text-library-primary" />
           <span className="text-xl font-bold text-library-text">MyLibrary</span>
         </Link>
 
@@ -74,7 +74,7 @@ const Navbar = () => {
                 className="cursor-pointer text-red-500 focus:text-red-500"
                 onClick={logout}
               >
-                <log-out className="mr-2 h-4 w-4" />
+                <LogOut className="mr-2 h-4 w-4" />
                 <span>Log out</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
