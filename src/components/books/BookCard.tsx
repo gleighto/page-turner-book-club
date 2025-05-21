@@ -41,6 +41,9 @@ const BookCard = ({ book, showActions = true }: BookCardProps) => {
   // Determine the button label based on current status
   const statusButtonLabel = book.status === "borrowed" ? "Return" : "Borrow";
 
+  // Display "Available" if status is "returned"
+  const displayStatus = book.status === "returned" ? "available" : book.status;
+
   return (
     <Card className="h-full flex flex-col transition-all duration-200 hover:shadow-md">
       <CardHeader className="pb-2">
@@ -52,7 +55,7 @@ const BookCard = ({ book, showActions = true }: BookCardProps) => {
               ${book.status === "borrowed" ? "bg-library-borrowed" : "bg-library-returned text-library-returned border-library-returned"}
             `}
           >
-            {book.status}
+            {displayStatus}
           </Badge>
         </div>
       </CardHeader>
