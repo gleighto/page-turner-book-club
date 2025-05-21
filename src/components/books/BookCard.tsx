@@ -11,9 +11,10 @@ import { Edit, Trash } from "lucide-react";
 interface BookCardProps {
   book: Book;
   showActions?: boolean;
+  onStatusChange?: () => void;
 }
 
-const BookCard = ({ book, showActions = true }: BookCardProps) => {
+const BookCard = ({ book, showActions = true, onStatusChange }: BookCardProps) => {
   const { deleteBook, updateBookStatus } = useLibrary();
   const navigate = useNavigate();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -36,6 +37,11 @@ const BookCard = ({ book, showActions = true }: BookCardProps) => {
     e.stopPropagation();
     const newStatus = book.status === "borrowed" ? "returned" : "borrowed";
     updateBookStatus(book.id, newStatus);
+    
+    // Call the onStatusChange callback if provided
+    if (onStatusChange) {
+      onStatusChange();
+    }
   };
 
   // Determine the button label based on current status

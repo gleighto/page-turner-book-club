@@ -15,10 +15,24 @@ const Index = () => {
   const { isAuthenticated } = useAuth();
   const { books } = useLibrary();
   const [searchResults, setSearchResults] = useState<Book[]>([]);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const handleSearchResults = (results: Book[]) => {
     setSearchResults(results);
   };
+
+  const handleBookStatusChange = () => {
+    // Trigger a refresh by incrementing the refreshKey
+    setRefreshKey(prevKey => prevKey + 1);
+  };
+
+  // Reset search results when refreshKey changes
+  useEffect(() => {
+    if (books.length > 0) {
+      // Re-trigger the last search to update results with new book statuses
+      handleSearchResults(books);
+    }
+  }, [refreshKey, books]);
 
   if (!isAuthenticated) {
     return <Navigate to="/auth" />;
@@ -48,7 +62,7 @@ const Index = () => {
                 Book Collection {searchResults.length > 0 && `(${searchResults.length})`}
               </h2>
             </div>
-            <BookList books={searchResults} />
+            <BookList books={searchResults} onBookStatusChange={handleBookStatusChange} />
           </div>
         </div>
       </div>
